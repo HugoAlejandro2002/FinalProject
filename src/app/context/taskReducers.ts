@@ -4,6 +4,8 @@ const types = {
   deleteTask: "DELETE_TASK",
   reorderTasks: "REORDER_TASKS",
   markTaskDone: "MARK_TASK_DONE",
+  loadTasks: "LOAD_TASKS",
+  loadDoneTasks: "LOAD_DONE_TASKS",
 };
 
 const initialValues = {
@@ -46,14 +48,24 @@ const tasksReducer = (state, action) => {
     case types.markTaskDone:
       const task = state.pendingTasks.find((t) => t.id === action.taskId);
       if (task) {
+        const updatedTask = { ...task, completedDate: action.completedDate };
         return {
           ...state,
           pendingTasks: state.pendingTasks.filter((t) => t.id !== action.taskId),
-          doneTasks: [...state.doneTasks, task],
+          doneTasks: [...state.doneTasks, updatedTask],
         };
       }
       break;
-
+    case types.loadTasks:
+      return {
+        ...state,
+        pendingTasks: action.tasks,
+      };
+    case types.loadDoneTasks:
+      return {
+        ...state,
+        doneTasks: action.tasks,
+      };
     default:
       return state;
   }

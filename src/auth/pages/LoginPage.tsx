@@ -1,22 +1,33 @@
-import { TextField, Button, Typography, Grid} from '@mui/material';
+import { TextField, Button, Typography, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import AuthLayout from "../layout/AuthLayout";
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../context/ThemeProvider';
 import { types } from '../../context/themeReducers';
+import { useEffect } from 'react';
 
 
 export const LoginPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   const onSubmit = (data) => {
-    dispatch({type: types.login}) 
-    navigate('/home')  
+    dispatch({ type: types.login })
+    localStorage.setItem('authenticated', 'true');
+    navigate('/home')
   };
+
+  useEffect(() => {
+    const isAuthed = localStorage.getItem('authenticated');
+    if (isAuthed === 'true') {
+      dispatch({ type: types.login })
+      navigate('/home')
+
+    }
+  }, [])
 
   return (
     <AuthLayout>

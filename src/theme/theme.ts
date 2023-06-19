@@ -3,7 +3,6 @@ import { useTheme } from '../context/ThemeProvider';
 
 const theme = () => {
   const {palette} = useTheme();
-  console.log(palette)
   return createTheme({
     palette
   });

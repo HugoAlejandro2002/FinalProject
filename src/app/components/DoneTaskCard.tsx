@@ -1,7 +1,11 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-export const DoneTaskCard = ({ task }) => {
+interface DoneTaskCardProps {
+  task: { id: string; title: string; description: string; completedDate: string };
+}
+
+export const DoneTaskCard: React.FC<DoneTaskCardProps> = ({ task }) => {
   return (
     <Card sx={{ marginBottom: 2 }}>
       <CardContent>

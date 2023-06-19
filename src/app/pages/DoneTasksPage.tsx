@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Card, CardContent, Grid, Box } from '@mui/material';
-import { useTasks } from '../context/TasksProvider';
+import { useDispatch, useTasks } from '../context/TasksProvider';
+import { types } from '../context/taskReducers';
 
 export const DoneTasksPage = () => {
   const { doneTasks } = useTasks();
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const storedTasks = localStorage.getItem('doneTasks');
+    if (storedTasks) {
+      dispatch({ type: types.loadDoneTasks, tasks: JSON.parse(storedTasks) });
+    }
+    
+  }, []);
+
+
 
   return (
     <Box p={2}>
@@ -32,7 +44,7 @@ export const DoneTasksPage = () => {
                     {task.description}
                   </Typography>
                   <Typography variant="caption" sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
-                    Completed: {task.completedDate}
+                    Completed: {task.completedDate ? task.completedDate : 'N/A'}
                   </Typography>
                 </CardContent>
               </Card>

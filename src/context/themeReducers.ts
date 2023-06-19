@@ -18,6 +18,7 @@ const lightTheme = {
     },
     background: {
       default: '#FFFFFF',
+      paper: '#FFFFFF',
     },
     text: {
       primary: '#333333',
@@ -45,6 +46,7 @@ const darkTheme = {
     },
     background: {
       default: '#212121',
+      paper: '#212121', 
     },
     text: {
       primary: '#FFFFFF',

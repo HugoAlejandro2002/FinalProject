@@ -9,8 +9,11 @@ import ListItemText from '@mui/material/ListItemText';
 import HomeIcon from '@mui/icons-material/Home';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, Outlet } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import { useDispatch } from '../../context/ThemeProvider';
+import { types } from '../../context/themeReducers';
 
 interface MenuItem {
   text: string;
@@ -22,13 +25,20 @@ const menuItems: MenuItem[] = [
   { text: 'Home', icon: <HomeIcon />, link: '/home' },
   { text: 'Pending', icon: <ScheduleIcon />, link: '/pending' },
   { text: 'Done', icon: <DoneAllIcon />, link: '/done' },
+  { text: 'Logout', icon: <LogoutIcon />, link: '/logout' },
 ];
 
 const AppLayout: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch({ type: types.logout });
   };
 
   const renderMenuItems = () => {
@@ -36,7 +46,7 @@ const AppLayout: React.FC = () => {
       <List>
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton component={Link} to={item.link}>
+            <ListItemButton component={Link} to={item.link} onClick={item.text === 'Logout' ? handleLogout : undefined}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
