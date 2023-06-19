@@ -71,11 +71,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
             Add
           </Button>
         )}
-        {editTaskId && (
-          <Button onClick={handleMarkTaskDone} variant="contained" color="success" sx={{ mt: 2 }}>
-            Mark as Done
-          </Button>
-        )}
+       
         {taskDate && (
           <Typography variant="body1" sx={{ mt: 2 }}>
             Completed on: {taskDate}

@@ -50,7 +50,7 @@ export const LoginPage = () => {
               variant="outlined"
               {...register('email', { required: true })}
               error={errors.email}
-              helperText={errors.email ? 'Campo requerido' : ''}
+              helperText={errors.email ? 'Email Requerido' : ''}
               margin="normal"
               fullWidth
             />
@@ -60,7 +60,7 @@ export const LoginPage = () => {
               type="password"
               {...register('password', { required: true })}
               error={errors.password}
-              helperText={errors.password ? 'Campo requerido' : ''}
+              helperText={errors.password ? 'Contraseña requerida' : ''}
               margin="normal"
               fullWidth
             />
