@@ -31,12 +31,8 @@ const AuthLayout = ({ children }) => {
       >
         {children}
       </Box>
-      <Button variant="contained" onClick={toggleTheme} sx={{ mt: 2 }}>
-        Cambiar tema
-      </Button>
     </Grid>
   );
 };
 
 export default AuthLayout;
-

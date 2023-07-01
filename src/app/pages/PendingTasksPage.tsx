@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Typography, Button, TextField, Grid, Box } from '@mui/material';
+import { Typography, Button, TextField, Grid, Box, Container } from '@mui/material';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { useTasks, useDispatch } from '../context/TasksProvider';
-import { TaskModal } from '../components/TaskModal';
-import { PendingTaskCard } from '../components/PendingTaskCard';
 import { types } from '../context/taskReducers';
 import { format } from 'date-fns';
 
@@ -124,80 +122,50 @@ export const PendingTasksPage = () => {
     }
   };
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+  // const handleSearch = (event) => {
+  //   setSearchTerm(event.target.value);
+  // };
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    // Aquí puedes realizar la lógica de búsqueda utilizando el valor de 'searchQuery'
+    console.log('Realizando búsqueda:', searchQuery);
+  };
+
+  const handleChange = (event) => {
+    setSearchQuery(event.target.value);
   };
 
   return (
-    <Box p={2} minHeight="100vh" display="flex" flexDirection="column">
+    <Container maxWidth="sm" style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginTop: '20vh',
+      boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
+      padding: '2rem',
+      borderRadius: '8px',
+    }}>
       <Typography variant="h5" gutterBottom>
-        Pending Tasks
+        Solicitar proyectos
       </Typography>
-      <Box mb={2}>
-        <TextField
-          variant="outlined"
-          size="small"
-          fullWidth
-          placeholder="Search tasks..."
-          value={searchTerm}
-          onChange={handleSearch}
-          inputRef={taskInputRef}
-        />
-      </Box>
-      <Box flexGrow={1} overflow="auto">
-        <DragDropContext onDragEnd={handleTaskDragEnd}>
-          <Droppable droppableId="pendingTasks">
-            {(provided) => (
-              <Box ref={provided.innerRef} {...provided.droppableProps}>
-                {getFilteredTasks().map((task, index) => (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <Box
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        mb={2}
-                        component={Grid}
-                        item
-                        xs={12}
-                        sm={6}
-                        md={4}
-                        lg={3}
-                      >
-                        <PendingTaskCard
-                          task={task}
-                          provided={provided}
-                          handleOpenModal={handleOpenModal}
-                          handleDeleteTask={handleDeleteTask}
-                          handleMarkTaskDone={handleMarkTaskDone}
-                        />
-                      </Box>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </Box>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </Box>
-      <Button
-        variant="contained"
-        onClick={() => setOpenModal(true)}
-        sx={{ mt: 2, alignSelf: 'flex-end' }}
-      >
-        Add Task
-      </Button>
-      <TaskModal
-        open={openModal}
-        editTaskId={editTaskId}
-        taskTitle={taskTitle}
-        taskDescription={taskDescription}
-        setTaskTitle={setTaskTitle}
-        setTaskDescription={setTaskDescription}
-        handleCloseModal={handleCloseModal}
-        handleAddTask={handleAddTask}
-        handleEditTask={handleEditTask}
-      />
-    </Box>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item xs>
+          <TextField
+            label="Buscar proyecto"
+            variant="outlined"
+            value={searchQuery}
+            onChange={handleChange}
+            fullWidth
+          />
+        </Grid>
+        <Grid item>
+          <Button variant="contained" color="primary" onClick={handleSearch}>
+            Buscar
+          </Button>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };

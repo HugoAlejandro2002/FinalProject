@@ -15,7 +15,7 @@ const NavBar: React.FC<NavBarProps> = function ({ onMenuClick }) {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                   Hugo Tasks
+                   Estudiante
                 </Typography>
                 <Avatar />
             </Toolbar>

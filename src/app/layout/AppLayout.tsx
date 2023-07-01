@@ -22,10 +22,10 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { text: 'Home', icon: <HomeIcon />, link: '/home' },
-  { text: 'Pending', icon: <ScheduleIcon />, link: '/pending' },
-  { text: 'Done', icon: <DoneAllIcon />, link: '/done' },
-  { text: 'Logout', icon: <LogoutIcon />, link: '/logout' },
+  { text: 'Mis practicas', icon: <HomeIcon />, link: '/home' },
+  { text: 'Solicitar practicas', icon: <ScheduleIcon />, link: '/pending' },
+  { text: 'Resumen', icon: <DoneAllIcon />, link: '/done' },
+  { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
 ];
 
 const AppLayout: React.FC = () => {

@@ -65,26 +65,9 @@ export const LoginPage = () => {
               fullWidth
             />
             <Button variant="contained" type="submit" color="primary" fullWidth>
-              Iniciar sesión
+              Iniciar sesion
             </Button>
           </form>
-        </Grid>
-        <Grid item>
-          <Typography variant="body1" color="textPrimary">
-            ¿No tienes una cuenta? <Link to="/auth/register">Regístrate</Link>
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            startIcon={<GoogleIcon />}
-            fullWidth
-            onClick={() => {
-              // Aquí puedes implementar la lógica de inicio de sesión con Google
-            }}
-          >
-            Iniciar sesión con Google
-          </Button>
         </Grid>
       </Grid>
     </AuthLayout>

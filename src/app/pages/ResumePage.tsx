@@ -45,7 +45,10 @@ export const ResumePage = () => {
 
   return (
     <Container maxWidth="md">
-      <Box mt={8} textAlign="center">
+      <Typography variant="h4" component="h1" gutterBottom>
+          Mis practicas
+        </Typography>
+      {/* <Box mt={8} textAlign="center">
         <Typography variant="h4" component="h1" gutterBottom>
           Resumen de Tareas
         </Typography>
@@ -59,7 +62,7 @@ export const ResumePage = () => {
           />
 
         </Grid>
-      </Grid>
+      </Grid> */}
     </Container>
   );
 };

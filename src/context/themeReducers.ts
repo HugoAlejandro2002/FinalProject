@@ -46,7 +46,7 @@ const darkTheme = {
     },
     background: {
       default: '#212121',
-      paper: '#212121', 
+      paper: '#212121',
     },
     text: {
       primary: '#FFFFFF',
@@ -61,6 +61,14 @@ const darkTheme = {
     },
   },
 };
+
+// Colores adicionales
+lightTheme.palette.primary.main = '#03A9F4';
+lightTheme.palette.secondary.main = '#8BC34A';
+
+darkTheme.palette.primary.main = '#666666';
+darkTheme.palette.secondary.main = '#4CAF50';
+
 
 const initialValues = {
   isLight:false,
