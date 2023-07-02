@@ -25,30 +25,31 @@ Para ejecutar la aplicación de forma local, debes tener Node.js y npm instalado
 
 1. Clona este repositorio en tu máquina local.
 2. Navega hasta el directorio del proyecto en tu terminal.
-3. Ejecuta el siguiente comando para instalar las dependencias requeridas:
+3. Entra a la rama o al branch llamada "ramota"
+4. Ejecuta el siguiente comando para instalar las dependencias requeridas:
 
    ```
    npm install
    
    ```
 
-4. Una vez que se complete la instalación, levanta el servicio con el siguiente comando:
+5. Una vez que se complete la instalación, levanta el servicio con el siguiente comando:
 
    ```
    
    npm run dev
    
    ```
-5. Para el backend se necesita credenciales para iniciarlo, donde se crea un archivo .env y se pone las siguientes credenciales:
+6. Para el backend se necesita credenciales para iniciarlo, donde se crea un archivo .env y se pone las siguientes credenciales:
    ![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/0b5e76db-48ea-4546-9209-edb54351a2e6)
 
-6. Para levantar este servicio despues de copiar las credenciales se ejecuta el siguiente comando:
+7. Para levantar este servicio despues de copiar las credenciales se ejecuta el siguiente comando:
    ```
    
    npm install
    
    ```
-7. Y para levantar este servicio se ejecuta el siguiente comando:
+8. Y para levantar este servicio se ejecuta el siguiente comando:
    ```
    
    npm run develop
