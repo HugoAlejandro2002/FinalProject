@@ -1,10 +1,10 @@
 import { Grid, Box, Button } from "@mui/material";
-import { useDispatch, useTheme } from '../../context/ThemeProvider';
+import { useThemeDispatch, useTheme } from '../../context/ThemeProvider';
 import { types } from '../../context/themeReducers';
 
 const AuthLayout = ({ children }) => {
   
-  const dispatch = useDispatch();
+  const dispatch = useThemeDispatch();
   const {isLight} = useTheme();
 
   const toggleTheme = () => {

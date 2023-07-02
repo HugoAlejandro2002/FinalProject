@@ -13,8 +13,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ArticleIcon from '@mui/icons-material/Article';
 import { Link, Outlet } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import { useDispatch } from '../../context/ThemeProvider';
-import { types } from '../../context/themeReducers';
+import { useAuth, useAuthDispatch } from '../../context/AuthProvider';
+import { types } from '../../context/authReducers';
 
 interface MenuItem {
   text: string;
@@ -29,15 +29,16 @@ const menuItems: MenuItem[] = [
   { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
 ];
 const menuItemsD: MenuItem[] = [
-  { text: 'Mis practicas', icon: <ArticleIcon />, link: '/registrop' },
-  { text: 'Solicitar practicas', icon: <SearchIcon />, link: '/visualizacion' },
-  { text: 'Resumen', icon: <PreviewIcon />, link: '/progresopracticas' },
+  { text: 'Crear Practica', icon: <ArticleIcon />, link: '/registrop' },
+  { text: 'Practicas Creadas', icon: <SearchIcon />, link: '/visualizacion' },
+  { text: 'Progeso de Alumnos', icon: <PreviewIcon />, link: '/progresopracticas' },
   { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
 ];
 
 const AppLayout: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const dispatch = useDispatch();
+  const { loginResponse } = useAuth();
+  const dispatch = useAuthDispatch();
 
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
@@ -48,12 +49,16 @@ const AppLayout: React.FC = () => {
     dispatch({ type: types.logout });
   };
 
+
   const renderMenuItems = () => {
+    const menuItemsToRender = loginResponse.role === 'Profesor' ?  menuItemsD : menuItems;
+
+
     return (
       <List>
-        {menuItems.map((item) => (
+        {menuItemsToRender.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton component={Link} to={item.link} onClick={item.text === 'Logout' ? handleLogout : undefined}>
+            <ListItemButton component={Link} to={item.link} onClick={item.text === 'Cerrar sesion' ? handleLogout : undefined}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -65,7 +70,7 @@ const AppLayout: React.FC = () => {
 
   return (
     <div>
-      <NavBar onMenuClick={toggleDrawer(true)} />
+      <NavBar onMenuClick={toggleDrawer(true)} user={loginResponse.role} />
       <SwipeableDrawer
         anchor="left"
         open={isDrawerOpen}

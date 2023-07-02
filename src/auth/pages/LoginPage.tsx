@@ -1,33 +1,52 @@
 import { TextField, Button, Typography, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import AuthLayout from "../layout/AuthLayout";
-import GoogleIcon from '@mui/icons-material/Google';
+import AuthLayout from '../layout/AuthLayout';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from '../../context/ThemeProvider';
-import { types } from '../../context/themeReducers';
-import { useEffect } from 'react';
-
+import { useAuthDispatch } from '../../context/AuthProvider';
+import { types } from '../../context/authReducers';
+import { useEffect, useState } from 'react';
+import { fetchUserInfo, loginUser } from '../../services/strapiServices';
 
 export const LoginPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm();
-  const dispatch = useDispatch();
+  const dispatch = useAuthDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
+  const onSubmit = async (data) => {
+    try {
+      const response = await loginUser(data);
+      const userInfo = await fetchUserInfo(response.jwt);
+      const { role, id} = userInfo;
 
-  const onSubmit = (data) => {
-    dispatch({ type: types.login })
-    localStorage.setItem('authenticated', 'true');
-    navigate('/home')
+      dispatch({ type: types.login, payload: { jwt: response.jwt, role: role.name,id } });
+      localStorage.setItem('authenticationToken', response.jwt);
+
+      navigate('/home');
+    } catch (error) {
+      setError('Credenciales inválidas');
+    }
   };
 
   useEffect(() => {
-    const isAuthed = localStorage.getItem('authenticated');
-    if (isAuthed === 'true') {
-      dispatch({ type: types.login })
-      navigate('/home')
+    const authenticationToken = localStorage.getItem('authenticationToken');
+    if (authenticationToken) {
+      const fetchUserPermission = async () => {
+        try {
+          const userInfo = await fetchUserInfo(authenticationToken);
+          const { role } = userInfo;
+          
+          dispatch({ type: types.login, payload: { jwt: authenticationToken, role: role.name, id } });
+          navigate('/home');
+        } catch (error) {
+          // Manejar el error al obtener la información del usuario
+          console.log('Error al obtener la información del usuario:', error);
+        }
+      };
 
+      fetchUserPermission();
     }
-  }, [])
+  }, []);
 
   return (
     <AuthLayout>
@@ -64,8 +83,15 @@ export const LoginPage = () => {
               margin="normal"
               fullWidth
             />
-            <Button variant="contained" type="submit" color="primary" fullWidth>
-              Iniciar sesion
+            {error && <div className="alert">{error}</div>}
+            <Button
+              variant="contained"
+              type="submit"
+              color="primary"
+              fullWidth
+              disabled={errors.email || errors.password}
+            >
+              Iniciar sesión
             </Button>
           </form>
         </Grid>

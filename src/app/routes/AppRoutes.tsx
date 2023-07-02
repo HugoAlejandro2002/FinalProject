@@ -1,29 +1,28 @@
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { GuardedRoute } from "../../guards/GuardedRoute";
-import { useTheme, useDispatch } from "../../context/ThemeProvider";
+import { GuardedRoute, TeacherGuardedRoute } from "../../guards/GuardedRoute";
+import { useAuth, useAuthDispatch } from "../../context/AuthProvider";
 import AppLayout from "../layout/AppLayout";
 import { DoneTasksPage, ResumePage, PendingTasksPage, AsignarPracticas, VerPracticas, RegistrarPracticas } from "../pages";
 import TasksProvider from "../context/TasksProvider";
 import { useEffect } from "react";
-import { types } from "../../context/themeReducers";
+import { types } from "../../context/authReducers";
+import { fetchUserInfo } from "../../services/strapiServices";
 
 export const AppRoutes = () => {
-  const { auth: isAuthenticated } = useTheme();
-  const dispatch = useDispatch()
+  const { auth: isAuthenticated, loginResponse } = useAuth();
+  const dispatch = useAuthDispatch()
   const navigate = useNavigate()
 
   useEffect( () => {
-    const authenticated = localStorage.getItem('authenticated'); 
+    const authenticationToken = localStorage.getItem('authenticationToken'); 
 
-    if (!authenticated) {
+    if (!authenticationToken) {
       // Si no hay estado de autenticación, redirigir al inicio de sesión
       navigate('/auth/login')
       
     }
-    if(authenticated==='true'){
-      dispatch({type: types.login}) 
-    }
   }, []); 
+
 
 
 
@@ -64,30 +63,30 @@ export const AppRoutes = () => {
         <Route
           path="/registrop"
           element={
-            <GuardedRoute auth={isAuthenticated}>
+            <TeacherGuardedRoute auth={isAuthenticated} role={loginResponse.role}>
               <AppLayout />
               <RegistrarPracticas />
-            </GuardedRoute>
+            </TeacherGuardedRoute>
           }
         >
         </Route>
         <Route
           path="/visualizacion"
           element={
-            <GuardedRoute auth={isAuthenticated}>
+            <TeacherGuardedRoute auth={isAuthenticated} role={loginResponse.role}>
               <AppLayout />
               <VerPracticas />
-            </GuardedRoute>
+            </TeacherGuardedRoute>
           }
         >
         </Route>
         <Route
           path="/progresopracticas"
           element={
-            <GuardedRoute auth={isAuthenticated}>
+            <TeacherGuardedRoute auth={isAuthenticated} role={loginResponse.role}>
               <AppLayout />
               <AsignarPracticas />
-            </GuardedRoute>
+            </TeacherGuardedRoute>
           }
         >
         </Route>

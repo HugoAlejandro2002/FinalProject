@@ -5,9 +5,10 @@ import { memo } from "react";
 
 interface NavBarProps {
     onMenuClick: () => void;
+    user: string;
 }
 
-const NavBar: React.FC<NavBarProps> = function ({ onMenuClick }) {
+const NavBar: React.FC<NavBarProps> = function ({ onMenuClick, user }) {
     return (
         <AppBar position="static">
             <Toolbar>
@@ -15,7 +16,7 @@ const NavBar: React.FC<NavBarProps> = function ({ onMenuClick }) {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                   Estudiante
+                   {user}
                 </Typography>
                 <Avatar />
             </Toolbar>
