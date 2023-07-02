@@ -13,7 +13,7 @@ const ThemeProvider = ({ children }) => {
 
 const useTheme = () => useContext(ThemeContext)[0];
 
-const useDispatch = () => useContext(ThemeContext)[1];
+const useThemeDispatch = () => useContext(ThemeContext)[1];
 
-export { ThemeContext, useTheme, useDispatch };
+export { ThemeContext, useTheme, useThemeDispatch };
 export default ThemeProvider;

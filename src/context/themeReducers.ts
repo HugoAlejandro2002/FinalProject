@@ -1,8 +1,6 @@
 const types = {
   light: "SET_LIGHT_THEME",
-  dark: "SET_DARK_THEME",
-  login: "SET_LOGIN",
-  logout: "SET_LOGOUT"
+  dark: "SET_DARK_THEME"
 };
 
 
@@ -65,7 +63,6 @@ const darkTheme = {
 const initialValues = {
   isLight:false,
   palette: darkTheme.palette,
-  auth: false,
 };
 
 const themeReducer = (state, action) => {
@@ -74,23 +71,13 @@ const themeReducer = (state, action) => {
       return {
         ...state,
         palette: lightTheme.palette,
-        isLight:true,
+
       };
     case types.dark:
       return {
         ...state,
         palette: darkTheme.palette,
         isLight:false,
-      };
-    case types.login:
-      return {
-        ...state,
-        auth: true
-      };
-    case types.logout:
-      return {
-        ...state,
-        auth: false
       };
     default:
       return state;
