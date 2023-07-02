@@ -55,7 +55,7 @@ export const DoneTasksPage = () => {
     // </Box>
     <Container maxWidth="md">
       <Typography variant="h4" component="h1" gutterBottom>
-          Resumen de mis practicas
+          Resumen de mis proyectos
         </Typography>
     </Container>
   );

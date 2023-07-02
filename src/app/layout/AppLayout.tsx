@@ -6,10 +6,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import ScheduleIcon from '@mui/icons-material/Schedule';
+import PreviewIcon from '@mui/icons-material/Preview';
+import SearchIcon from '@mui/icons-material/Search';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ArticleIcon from '@mui/icons-material/Article';
 import { Link, Outlet } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import { useDispatch } from '../../context/ThemeProvider';
@@ -22,9 +23,9 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { text: 'Mis practicas', icon: <HomeIcon />, link: '/home' },
-  { text: 'Solicitar practicas', icon: <ScheduleIcon />, link: '/pending' },
-  { text: 'Resumen', icon: <DoneAllIcon />, link: '/done' },
+  { text: 'Mis practicas', icon: <ArticleIcon />, link: '/home' },
+  { text: 'Solicitar practicas', icon: <SearchIcon />, link: '/pending' },
+  { text: 'Resumen', icon: <PreviewIcon />, link: '/done' },
   { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
 ];
 

@@ -1,9 +1,8 @@
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-
 import { GuardedRoute } from "../../guards/GuardedRoute";
 import { useTheme, useDispatch } from "../../context/ThemeProvider";
 import AppLayout from "../layout/AppLayout";
-import { DoneTasksPage, ResumePage, PendingTasksPage } from "../pages";
+import { DoneTasksPage, ResumePage, PendingTasksPage, AsignarPracticas } from "../pages";
 import TasksProvider from "../context/TasksProvider";
 import { useEffect } from "react";
 import { types } from "../../context/themeReducers";
