@@ -1,6 +1,23 @@
-# Gestor de tareas web
+# Proyecto final Plataforma de Gestión de Prácticas Profesionales 📕📖📑🧾
+## Información del equipo
+- Nombre: Hugo Apaza
+- Código: 62043
+- Nombre: Pablo Badani
+- Código: 55789
 
-Este README proporciona información sobre el proyecto del Gestor de Tareas web, que está construido con React y Material-UI. La aplicación permite a los usuarios administrar tareas pendientes y completadas. Los usuarios pueden iniciar sesión, registrar nuevas cuentas y realizar acciones relacionadas con las tareas, como marcar tareas como completadas, agregar nuevas tareas y ver un resumen de sus tareas. La aplicación utiliza almacenamiento local para persistir las tareas y admite características como arrastrar y soltar para reordenar las tareas y buscar tareas por título.
+## Descripcion
+
+El proposito de nuestro proyecto es crear una aplicacion web donde se pueda usar la vista de un docente y la vista de un alumno para la gestion de practicas profesionales donde el docente puede crear practicas, asignar a estudiantes que deseen postularse, asi mismo el estudiante tambien puede ver las practicas que este creando el docente y poder postular a estas mismas donde tambien se podrá ver el progreso, a continuacion se mostraran imagenes de la aplicacion:
+![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/e959ee95-fea8-4ba9-a039-2019e51a1176)
+![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/51603f58-92a9-4ba9-a6cf-2b2690efc1a8)
+![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/12ef656c-1197-4ccc-af4c-16c6b5af559f)
+![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/5d646d33-58fc-4678-abad-95a77fd8a33a)
+![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/e0351f18-6a16-47ed-be39-eaaf37ba549d)
+![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/b80b050e-aed3-4a43-9b6c-00b9893886ea)
+
+## Link del video explicativo
+https://drive.google.com/drive/folders/1tjBhjr-8AawvBlg-9EZ-58mslcU2jZIA?usp=sharing
+
 
 ## Instalación
 
@@ -15,78 +32,32 @@ Para ejecutar la aplicación de forma local, debes tener Node.js y npm instalado
    
    ```
 
-4. Una vez que se complete la instalación, inicia el servidor de desarrollo con el siguiente comando:
+4. Una vez que se complete la instalación, levanta el servicio con el siguiente comando:
 
    ```
    
-   npm start
+   npm run dev
    
    ```
+5. Para el backend se necesita credenciales para iniciarlo, donde se crea un archivo .env y se pone las siguientes credenciales:
+   ![image](https://github.com/HugoAlejandro2002/FinalProject/assets/80706043/0b5e76db-48ea-4546-9209-edb54351a2e6)
 
-5. La aplicación debería estar ejecutándose en `http://localhost:3000`.
+6. Para levantar este servicio despues de copiar las credenciales se ejecuta el siguiente comando:
+   ```
+   
+   npm install
+   
+   ```
+7. Y para levantar este servicio se ejecuta el siguiente comando:
+   ```
+   
+   npm run develop
+   
+   ```
+## Tecnologias usadas
 
-## Uso
-
-- Para agregar una nueva tarea, haz clic en el botón "Agregar tarea".
-- Para editar una tarea, haz clic en el ícono de edición junto a la tarea.
-- Para eliminar una tarea, haz clic en el ícono de eliminación junto a la tarea.
-- Para marcar una tarea como completada, haz clic en el ícono de finalización junto a la tarea.
-- Para reordenar las tareas, arrastra y suelta una tarea en la posición deseada.
-- Para buscar tareas por título, ingresa tu término de búsqueda en el campo de entrada de búsqueda.
-
-## Componentes
-
-### App.js
-
-Este archivo es el punto de entrada de la aplicación. Configura la estructura de enrutamiento utilizando `react-router-dom` y define el tema de la aplicación utilizando el componente `ThemeProvider`.
-
-### ThemeProvider.js
-
-Este archivo contiene el contexto y los hooks relacionados con el tema de la aplicación. Utiliza el hook `useReducer` para manejar los cambios de tema y autenticación.
-
-### themeReducers.js
-
-Este archivo define el estado inicial del tema de la aplicación y proporciona el reductor para manejar los cambios de tema y autenticación.
-
-### AppRouter.js
-
-Este archivo define las rutas de la aplicación utilizando el enrutador `react-router-dom`. Incluye rutas para la autenticación y rutas protegidas que requieren autenticación.
-
-### AuthRoute.js
-
-Este archivo define las rutas relacionadas con la autenticación, como la página de inicio de sesión y la página de registro. También redirige a la página de inicio de sesión si se intenta acceder a una ruta no válida.
-
-### LoginPage.js
-
-Este archivo contiene el formulario de inicio de sesión y su lógica asociada. Utiliza el hook `useForm` de `react-hook-form` para manejar la validación y el estado del formulario. También utiliza el contexto del tema para manejar el estado de autenticación y la navegación.
-
-### RegisterPage.js
-
-Este archivo contiene el formulario de registro y su lógica asociada. Utiliza el hook `useForm` de `react-hook-form` para manejar la validación y el estado del formulario.
-
-### AppRoutes.js
-
-Este archivo define las rutas protegidas de la aplicación una vez que el usuario ha iniciado sesión. Utiliza el contexto del tema para verificar el estado de autenticación y mostrar las rutas correspondientes.
-
-### ResumePage.js
-
-Este archivo muestra un resumen de las tareas del usuario. Utiliza el contexto de tareas para obtener la lista de tareas pendientes y completadas. También utiliza el contexto del tema para cargar tareas y el estado de autenticación cuando se carga la página.
-
-### TaskSummary.js
-
-Este archivo muestra un resumen de las tareas completadas y pendientes. Utiliza los datos proporcionados como propiedades para calcular y mostrar el porcentaje de tareas completadas y el número de tareas pendientes.
-
-## Contexto
-
-El contexto `TasksContext` se crea utilizando la función `createContext` de React. Proporciona los hooks `useTasks` y `useDispatch` para acceder al estado de las tareas y despachar acciones, respectivamente.
-
-El componente `ThemeProvider` gestiona el estado del tema de la aplicación y el estado de autenticación utilizando un contexto creado con `createContext`. Proporciona los hooks `useTheme` y `useDispatch` para acceder al estado del tema y despachar acciones, respectivamente.
-
-## Reductor
-
-El reductor `tasksReducer` se encarga de manejar las diferentes acciones relacionadas con las tareas. Actualiza el estado según el tipo de acción y la carga útil.
-
-El reductor `themeReducer` se utiliza para manejar los cambios de tema y autenticación. Actualiza el estado según el tipo de acción y la carga útil.
-
-LINK DEL VIDEO:  https://drive.google.com/drive/folders/10Vhc0eCak6enHYnTqTcz9QgcmDapVc5b?usp=drive_link
-
+* React.js
+* Strapi
+* React Router
+* React Hook Form
+* Material-UI
