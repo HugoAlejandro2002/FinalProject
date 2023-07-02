@@ -1,85 +1,57 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { Typography, Button, TextField, Grid, Box, Container } from '@mui/material';
-import { useTasks, useDispatch } from '../context/TasksProvider';
-import { types } from '../context/taskReducers';
+import { useForm } from 'react-hook-form';
+import { useAuth } from '../../context/AuthProvider';
+import { createPractica } from '../../services/strapiServices';
 
 export const RegistrarPracticas = () => {
-  const {doneTasks, pendingTasks } = useTasks();
-  const dispatch = useDispatch();
-  const taskInputRef = useRef<HTMLInputElement>(null);
+  const { loginResponse } = useAuth();
+  const { register, handleSubmit, reset } = useForm();
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (taskInputRef.current) {
-        taskInputRef.current.focus();
-      }
-    }, 0);
+  const onSubmit = async (data) => {
+    try {
+      const response = await createPractica(loginResponse.jwt, {
+        Titulo: data.title,
+        Descripcion: data.content,
+        Status: 'disponible'
+      });
 
-    return () => clearTimeout(timeoutId);
-  },[]);
+      console.log('Práctica creada:', response);
+      // Aquí puedes realizar alguna acción adicional después de crear la práctica
 
-  useEffect(() => {
-    const storedTasks = localStorage.getItem('pendingTasks');
-    if (storedTasks) {
-      dispatch({ type: types.loadTasks, tasks: JSON.parse(storedTasks) });
+      // Limpiar los campos de entrada después de crear la práctica
+      reset();
+    } catch (error) {
+      console.error('Error al crear la práctica:', error);
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('pendingTasks', JSON.stringify(pendingTasks));
-  }, [pendingTasks]);
-
-  useEffect(() => {
-    localStorage.setItem('doneTasks', JSON.stringify(doneTasks));
-  }, [doneTasks]);
-
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-
-  const handleCreate = () => {
-    // Aquí puedes realizar la lógica para crear con los valores de 'title' y 'content'
-    console.log('Creando con título:', title);
-    console.log('Contenido:', content);
-  };
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
   };
 
   return (
     <Container maxWidth="sm" style={{ marginTop: '20vh' }}>
       <Typography variant="h4" component="h1" gutterBottom>
-          Crear una practica
-        </Typography>
+        Crear una práctica
+      </Typography>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12}>
-          <TextField
-            label="Título"
-            variant="outlined"
-            value={title}
-            onChange={handleTitleChange}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Contenido"
-            variant="outlined"
-            value={content}
-            onChange={handleContentChange}
-            multiline
-            rows={4}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={handleCreate}>
-            Crear
-          </Button>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              label="Título"
+              variant="outlined"
+              fullWidth
+              {...register('title', { required: true })}
+            />
+            <TextField
+              label="Contenido"
+              variant="outlined"
+              multiline
+              rows={4}
+              fullWidth
+              {...register('content', { required: true })}
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Crear
+            </Button>
+          </form>
         </Grid>
       </Grid>
     </Container>

@@ -1,27 +1,60 @@
-import { useEffect } from 'react';
-import { Typography, Card, CardContent, Container, Grid, Box } from '@mui/material';
-import { useDispatch, useTasks } from '../context/TasksProvider';
-import { types } from '../context/taskReducers';
+import React, { useEffect, useState } from 'react';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container } from '@mui/material';
+import { getPracticas } from '../../services/strapiServices';
+import { useAuth } from '../../context/AuthProvider';
 
 export const VerPracticas = () => {
-  const { doneTasks } = useTasks();
-  const dispatch = useDispatch()
+  const { loginResponse } = useAuth();
+  const [practicas, setPracticas] = useState([]);
 
   useEffect(() => {
-    const storedTasks = localStorage.getItem('doneTasks');
-    if (storedTasks) {
-      dispatch({ type: types.loadDoneTasks, tasks: JSON.parse(storedTasks) });
-    }
-    
+    const fetchPracticas = async () => {
+      try {
+        const response = await getPracticas(loginResponse.jwt);
+        console.log(response);
+        setPracticas(response.data);
+      } catch (error) {
+        console.error('Error al obtener las prácticas:', error);
+      }
+    };
+
+    fetchPracticas();
   }, []);
-
-
 
   return (
     <Container maxWidth="md">
       <Typography variant="h4" component="h1" gutterBottom>
-          Practicas creadas
-        </Typography>
+        Prácticas creadas
+      </Typography>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Título</TableCell>
+              <TableCell>Descripción</TableCell>
+              <TableCell>Estado</TableCell>
+              <TableCell>Estudiante</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {practicas.map((practica) => {
+              const { id, attributes } = practica;
+              const { Titulo, Descripcion, Status, users_permissions_user } = attributes;
+
+              const estudiante = users_permissions_user.data ? users_permissions_user.data.attributes.username : 'Ninguno';
+
+              return (
+                <TableRow key={id}>
+                  <TableCell>{Titulo}</TableCell>
+                  <TableCell>{Descripcion}</TableCell>
+                  <TableCell>{Status}</TableCell>
+                  <TableCell>{estudiante}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Container>
   );
 };

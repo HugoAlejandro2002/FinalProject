@@ -29,9 +29,9 @@ const menuItems: MenuItem[] = [
   { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
 ];
 const menuItemsD: MenuItem[] = [
-  { text: 'Crear Practica', icon: <ArticleIcon />, link: '/registrop' },
-  { text: 'Practicas Creadas', icon: <SearchIcon />, link: '/visualizacion' },
-  { text: 'Progeso de Alumnos', icon: <PreviewIcon />, link: '/progresopracticas' },
+  { text: 'Registrar Practicas', icon: <ArticleIcon />, link: '/registrop' },
+  { text: 'Ver Practicas', icon: <SearchIcon />, link: '/visualizacion' },
+  { text: 'Asignar Practicas', icon: <PreviewIcon />, link: '/progresopracticas' },
   { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
 ];
 
@@ -68,9 +68,12 @@ const AppLayout: React.FC = () => {
     );
   };
 
+
+  const auxRole = loginResponse.role === 'Profesor' ?  'Profesor' : 'Estudiante';
+
   return (
     <div>
-      <NavBar onMenuClick={toggleDrawer(true)} user={loginResponse.role} />
+      <NavBar onMenuClick={toggleDrawer(true)} user={auxRole} />
       <SwipeableDrawer
         anchor="left"
         open={isDrawerOpen}

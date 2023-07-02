@@ -1,68 +1,79 @@
-import React, { useEffect, useMemo } from 'react';
-import { Typography, Container, Box, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, Container, Box, Grid, Button } from '@mui/material';
 
-import { useTasks, useDispatch } from '../context/TasksProvider';
-import { TaskSummary } from '../components/TaskSumary';
-import { types } from '../context/taskReducers';
-
-
+import { useAuth } from '../../context/AuthProvider';
+import { getPracticasByUser, finalizarPractica } from '../../services/strapiServices';
 
 export const ResumePage = () => {
-  const { pendingTasks, doneTasks } = useTasks();
-  const dispatch = useDispatch();
+  const { loginResponse } = useAuth();
+  const [practicas, setPracticas] = useState([]);
 
   useEffect(() => {
-    const storedTasks = localStorage.getItem('pendingTasks');
-    const storedDoneTasks = localStorage.getItem('doneTasks');
-    const auth = localStorage.getItem('authenticated');
+    const fetchPracticas = async () => {
+      try {
+        const response = await getPracticasByUser(loginResponse.jwt, loginResponse.id);
+        setPracticas(response);
+      } catch (error) {
+        console.error('Error al obtener las prácticas:', error);
+      }
+    };
 
-
-    if (storedTasks) {
-      dispatch({ type: types.loadTasks, tasks: JSON.parse(storedTasks) });
-
-    }
-    if (storedDoneTasks) {
-
-      dispatch({ type: types.loadDoneTasks, tasks: JSON.parse(storedDoneTasks) });
-    }
-
-
+    fetchPracticas();
   }, []);
 
+  const handleFinalizarPractica = async (practicaId) => {
+    try {
+      const token = loginResponse.jwt;
 
+      // Finalizar la práctica en la base de datos
+      await finalizarPractica(token, practicaId);
 
-  const taskSummary = useMemo(() => {
-    const totalTasks = pendingTasks.length + doneTasks.length;
-    const completedTasks = doneTasks.length;
-    const pendingTasksCount = pendingTasks.length;
+      // Actualizar la lista de prácticas o realizar alguna acción adicional
+      const updatedPracticas = practicas.filter((practica) => practica.id !== practicaId);
+      setPracticas(updatedPracticas);
 
-    return {
-      totalTasks,
-      completedTasks,
-      pendingTasksCount,
-    };
-  }, [pendingTasks, doneTasks]);
+      console.log('Práctica finalizada');
+    } catch (error) {
+      console.error('Error al finalizar la práctica:', error);
+    }
+  };
 
   return (
     <Container maxWidth="md">
       <Typography variant="h4" component="h1" gutterBottom>
-          Mis practicas
-        </Typography>
-      {/* <Box mt={8} textAlign="center">
-        <Typography variant="h4" component="h1" gutterBottom>
-          Resumen de Tareas
-        </Typography>
-      </Box>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} md={6}>
-          <TaskSummary
-            totalTasks={taskSummary.totalTasks}
-            completedTasks={taskSummary.completedTasks}
-            pendingTasks={taskSummary.pendingTasksCount}
-          />
+        Mis prácticas finalizadas
+      </Typography>
+      {practicas.length > 0 ? (
+        <Grid container spacing={2}>
+          {practicas.map((practica) => {
+            const {id} = practica
+            const { Titulo, Descripcion } = practica.attributes;
+      
 
+            return (
+              <Grid item xs={12} sm={6} md={4} key={id}>
+                <Box boxShadow={2} p={2}>
+                  <Typography variant="h6">{Titulo}</Typography>
+                  <Typography variant="body2">{Descripcion}</Typography>
+                  <Box mt={2}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleFinalizarPractica(id)}
+                    >
+                      Finalizar práctica
+                    </Button>
+                  </Box>
+                </Box>
+              </Grid>
+            );
+          })}
         </Grid>
-      </Grid> */}
+      ) : (
+        <Typography variant="body1">
+          No tienes prácticas finalizadas en este momento.
+        </Typography>
+      )}
     </Container>
   );
 };

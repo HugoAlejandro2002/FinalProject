@@ -1,62 +1,80 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Card, CardContent, Container, Grid, Box } from '@mui/material';
-import { useDispatch, useTasks } from '../context/TasksProvider';
-import { types } from '../context/taskReducers';
+import { getAllPracticasByUser } from '../../services/strapiServices';
+import { useAuth } from '../../context/AuthProvider';
 
 export const DoneTasksPage = () => {
-  const { doneTasks } = useTasks();
-  const dispatch = useDispatch()
+  const [completedPracticas, setCompletedPracticas] = useState([]);
+  const [pendingPracticas, setPendingPracticas] = useState([]);
+  const { loginResponse } = useAuth();
 
   useEffect(() => {
-    const storedTasks = localStorage.getItem('doneTasks');
-    if (storedTasks) {
-      dispatch({ type: types.loadDoneTasks, tasks: JSON.parse(storedTasks) });
-    }
-    
-  }, []);
+    const fetchPracticas = async () => {
+      try {
+        const response = await getAllPracticasByUser(loginResponse.jwt, loginResponse.id);
+        const completed = response.filter(practica => practica.attributes.Status === 'acabada');
+        const pending = response.filter(practica => practica.attributes.Status !== 'acabada');
+        setCompletedPracticas(completed);
+        setPendingPracticas(pending);
+      } catch (error) {
+        console.error('Error al obtener las prácticas:', error);
+      }
+    };
 
-
+    fetchPracticas();
+  }, [loginResponse.jwt, loginResponse.id]);
 
   return (
-    // <Box p={2} maxWidth="md">
-    //   <Typography variant="h5" gutterBottom>
-    //     Done Tasks
-    //   </Typography>
-    //   <Box mt={2}>
-    //     <Grid container spacing={2}>
-    //       {doneTasks.map((task, index) => (
-    //         <Grid key={task.id} item xs={12} sm={6} md={4} lg={3}>
-    //           <Card
-    //             sx={{
-    //               marginBottom: '1rem',
-    //               backgroundColor: 'background.default',
-    //               '&:hover': {
-    //                 backgroundColor: 'action.hover',
-    //                 cursor: 'pointer',
-    //               },
-    //             }}
-    //           >
-    //             <CardContent>
-    //               <Typography variant="h6" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-    //                 {task.title}
-    //               </Typography>
-    //               <Typography variant="body2" sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>
-    //                 {task.description}
-    //               </Typography>
-    //               <Typography variant="caption" sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
-    //                 Completed: {task.completedDate ? task.completedDate : 'N/A'}
-    //               </Typography>
-    //             </CardContent>
-    //           </Card>
-    //         </Grid>
-    //       ))}
-    //     </Grid>
-    //   </Box>
-    // </Box>
     <Container maxWidth="md">
       <Typography variant="h4" component="h1" gutterBottom>
-          Resumen de mis proyectos
-        </Typography>
+        Resumen de mis proyectos
+      </Typography>
+      {completedPracticas.length > 0 && (
+        <Box mt={4}>
+          <Typography variant="h5" gutterBottom>
+            Proyectos completados
+          </Typography>
+          <Grid container spacing={2}>
+            {completedPracticas.map(practica => {
+              const { id, attributes } = practica;
+              const { Titulo, Descripcion } = attributes;
+              return (
+                <Grid item xs={12} sm={6} md={4} key={id}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6">{Titulo}</Typography>
+                      <Typography variant="body2">{Descripcion}</Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
+      )}
+      {pendingPracticas.length > 0 && (
+        <Box mt={4}>
+          <Typography variant="h5" gutterBottom>
+            Proyectos pendientes
+          </Typography>
+          <Grid container spacing={2}>
+            {pendingPracticas.map(practica => {
+              const { id, attributes } = practica;
+              const { Titulo, Descripcion } = attributes;
+              return (
+                <Grid item xs={12} sm={6} md={4} key={id}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h6">{Titulo}</Typography>
+                      <Typography variant="body2">{Descripcion}</Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
+      )}
     </Container>
   );
 };
