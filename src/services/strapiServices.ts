@@ -53,8 +53,10 @@ export const createPostulacion = async (jwt, practicaId, userId) => {
         const response = await strapiAPI.post(
             '/api/postulacions',
             {
-                practica: practicaId,
-                users_permissions_user: userId
+                data: {
+                    practica: practicaId,
+                    users_permissions_user: userId
+                }
             },
             {
                 headers: {
