@@ -2,7 +2,7 @@ import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { GuardedRoute } from "../../guards/GuardedRoute";
 import { useTheme, useDispatch } from "../../context/ThemeProvider";
 import AppLayout from "../layout/AppLayout";
-import { DoneTasksPage, ResumePage, PendingTasksPage, AsignarPracticas } from "../pages";
+import { DoneTasksPage, ResumePage, PendingTasksPage, AsignarPracticas, VerPracticas, RegistrarPracticas } from "../pages";
 import TasksProvider from "../context/TasksProvider";
 import { useEffect } from "react";
 import { types } from "../../context/themeReducers";
@@ -46,6 +46,7 @@ export const AppRoutes = () => {
             <GuardedRoute auth={isAuthenticated}>
               <AppLayout />
               <DoneTasksPage />
+              {/* <RegistrarPracticas /> */}
             </GuardedRoute>
           }
         >
@@ -56,6 +57,36 @@ export const AppRoutes = () => {
             <GuardedRoute auth={isAuthenticated}>
               <AppLayout />
               <PendingTasksPage />
+            </GuardedRoute>
+          }
+        >
+        </Route>
+        <Route
+          path="/registrop"
+          element={
+            <GuardedRoute auth={isAuthenticated}>
+              <AppLayout />
+              <RegistrarPracticas />
+            </GuardedRoute>
+          }
+        >
+        </Route>
+        <Route
+          path="/visualizacion"
+          element={
+            <GuardedRoute auth={isAuthenticated}>
+              <AppLayout />
+              <VerPracticas />
+            </GuardedRoute>
+          }
+        >
+        </Route>
+        <Route
+          path="/progresopracticas"
+          element={
+            <GuardedRoute auth={isAuthenticated}>
+              <AppLayout />
+              <AsignarPracticas />
             </GuardedRoute>
           }
         >

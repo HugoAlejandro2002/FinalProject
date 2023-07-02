@@ -28,6 +28,12 @@ const menuItems: MenuItem[] = [
   { text: 'Resumen', icon: <PreviewIcon />, link: '/done' },
   { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
 ];
+const menuItemsD: MenuItem[] = [
+  { text: 'Mis practicas', icon: <ArticleIcon />, link: '/registrop' },
+  { text: 'Solicitar practicas', icon: <SearchIcon />, link: '/visualizacion' },
+  { text: 'Resumen', icon: <PreviewIcon />, link: '/progresopracticas' },
+  { text: 'Cerrar sesion', icon: <LogoutIcon />, link: '/logout' },
+];
 
 const AppLayout: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
